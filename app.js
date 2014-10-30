@@ -31,9 +31,11 @@ Enemy.prototype.render = function() {
 //Player class
 
 var Player = function() {
-    pos: [0, 0]
+    
     // The image/sprite for our palyers, this uses
-    this.sprite = Resources.get('images/enemy-bug.png');
+    this.sprite = 'images/enemy-bug.png';
+    this.x=1;
+    this.y=1;
 }
 
 // Update the player's position, required method for game
@@ -53,11 +55,15 @@ Player.prototype.handleInput = function() {
 }
 
 
+
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
+var enemy1 = new Enemy();
+var player = new Player();
 var allEnemies=[];
-var player=[];
+allEnemies.push(enemy1);
+
 
 
 
