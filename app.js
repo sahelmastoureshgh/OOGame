@@ -8,7 +8,7 @@ var Enemy = function() {
     var speed;
     // The image/sprite for our enemies, this uses
     // a helper we've provided to easily load images
-    this.sprite = Resources.get('images/enemy-bug.png');
+    this.sprite = 'images/enemy-bug.png';
 }
 
 // Update the enemy's position, required method for game
@@ -33,9 +33,9 @@ Enemy.prototype.render = function() {
 var Player = function() {
     
     // The image/sprite for our palyers, this uses
-    this.sprite = 'images/enemy-bug.png';
-    this.x=1;
-    this.y=1;
+    this.sprite ='images/char-boy.png';
+    this.x=this.startLocationX(4,1);
+    this.y=this.startLocationY(5,4);
 }
 
 // Update the player's position, required method for game
@@ -53,7 +53,14 @@ Player.prototype.render = function() {
 Player.prototype.handleInput = function() {
     
 }
-
+Player.prototype.startLocationX=function(max, min){
+    var locX=101*(Math.floor(Math.random() * (max - min + 1))+ min);
+    return locX;
+}
+Player.prototype.startLocationY=function(max, min){
+    var locY=83*(Math.floor(Math.random() * (max - min + 1)) + min);
+    return locY;
+}
 
 
 // Now instantiate your objects.
