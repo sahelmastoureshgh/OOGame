@@ -37,10 +37,15 @@ Enemy is a sub class of GameEntity
 **/
 var Enemy=function(maxLocX,minLocX,maxLocY,minLocY,sprite){
     GameEntity.call(this,maxLocX,minLocX,maxLocY,minLocY,sprite);
-    var speed=1;
 }
 Enemy.prototype=Object.create(GameEntity.prototype);
 Enemy.prototype.constructor=Enemy;
+
+// Return intial speed for an enemy
+Enemy.prototype.startSpeed=function(){
+    var speed=30;
+    return speed;  
+}
 
 /**
 Update the enemy's position, required method for game
@@ -50,7 +55,11 @@ Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    //this.x = this.speed*dt;
+    this.x += this.startSpeed()*dt;
+    //If enemy is not in range
+    if(this.x > 504) {
+        this.x = 101*this.startLocation(4,0);
+    }
 }
 
 /**
