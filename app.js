@@ -1,75 +1,96 @@
-// Enemies our player must avoid
-var Enemy = function() {
-    // Variables applied to each of our instances go here,
-    // we've provided one for you to get started
-    var loc;
-    var x;
-    var y;
-    var speed;
-    // The image/sprite for our enemies, this uses
-    // a helper we've provided to easily load images
-    this.sprite = 'images/enemy-bug.png';
+/**
+super class for Enemy and Player
+@param {number} maxLocX maximum random integer to find out location of x
+@param {number} minLocX minimum random integer to find out location of y
+@param {number} maxLocY maximum random integer to find out location of x
+@param {number} minLocY minimum random integer to find out location of y
+@param {string} sprite path to image for entity
+**/
+var GameEntity=function(maxLocX,minLocX,maxLocY,minLocY,sprite){
+    this.x=101*this.startLocation(maxLocX,minLocX);
+    this.y=83*this.startLocation(maxLocY,minLocY);
+    this.sprite=sprite;
 }
 
-// Update the enemy's position, required method for game
-// Parameter: dt, a time delta between ticks
+/**
+Find random number between max and min inclusive
+@param {number} max maximum random integer 
+@param {number} min minimum random integer 
+@return {number} location of  for an entity
+**/
+GameEntity.prototype.startLocation=function(max, min){
+    var randNum=(Math.floor(Math.random() * (max - min + 1))+ min);
+    return randNum;
+}
+
+// Draw the Entity on the screen, required method for game
+GameEntity.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+}
+/**
+Enemy is a sub class of GameEntity
+@param {number} maxLocX maximum random integer to find out location of x
+@param {number} minLocX minimum random integer to find out location of y
+@param {number} maxLocY maximum random integer to find out location of x
+@param {number} minLocY minimum random integer to find out location of y
+@param {string} sprite path to image for entity
+**/
+var Enemy=function(maxLocX,minLocX,maxLocY,minLocY,sprite){
+    GameEntity.call(this,maxLocX,minLocX,maxLocY,minLocY,sprite);
+    var speed=1;
+}
+Enemy.prototype=Object.create(GameEntity.prototype);
+Enemy.prototype.constructor=Enemy;
+
+/**
+Update the enemy's position, required method for game
+@param {number} dt, a time delta between ticks
+**/
 Enemy.prototype.update = function(dt) {
     // You should multiply any movement by the dt parameter
     // which will ensure the game runs at the same speed for
     // all computers.
-    this.loc+=this.speed*dt;
+    //this.x = this.speed*dt;
 }
 
-// Draw the enemy on the screen, required method for game
-Enemy.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+/**
+Player is a sub class of GameEntity
+@param {number} maxLocX maximum random integer to find out location of x
+@param {number} minLocX minimum random integer to find out location of y
+@param {number} maxLocY maximum random integer to find out location of x
+@param {number} minLocY minimum random integer to find out location of y
+@param {string} sprite path to image for entity
+**/
+var Player=function(maxLocX,minLocX,maxLocY,minLocY,sprite){
+    GameEntity.call(this,maxLocX,minLocX,maxLocY,minLocY,sprite);
 }
+Player.prototype=Object.create(GameEntity.prototype);
+Player.prototype.constructor=Player;
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-//Player class
-
-var Player = function() {
-    
-    // The image/sprite for our palyers, this uses
-    this.sprite ='images/char-boy.png';
-    this.x=this.startLocationX(4,1);
-    this.y=this.startLocationY(5,4);
-}
-
-// Update the player's position, required method for game
-// Parameter: dt, a time delta between ticks
 Player.prototype.update = function(dt) {
  
 }
-
-// Draw the player on the screen, required method for game
-Player.prototype.render = function() {
-    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
-}
-
-// 
+//
 Player.prototype.handleInput = function() {
     
-}
-Player.prototype.startLocationX=function(max, min){
-    var locX=101*(Math.floor(Math.random() * (max - min + 1))+ min);
-    return locX;
-}
-Player.prototype.startLocationY=function(max, min){
-    var locY=83*(Math.floor(Math.random() * (max - min + 1)) + min);
-    return locY;
 }
 
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
-var enemy1 = new Enemy();
-var player = new Player();
+// Place enemy1 in row 3 and any column from 0 to 4
+var enemy1 = new Enemy(4,0,3,3,'images/enemy-bug.png');
+// Place enemy2 in row 2 and any column from 0 to 4
+var enemy2 = new Enemy(4,0,2,2,'images/enemy-bug.png');
+// Place enemy1 in row 1 and any column from 0 to 4
+var enemy3 = new Enemy(4,0,1,1,'images/enemy-bug.png');
+// Place player in row 5,4 and any column from 0 to 4
+var player = new Player(4,0,5,4,'images/char-boy.png');
 var allEnemies=[];
 allEnemies.push(enemy1);
+allEnemies.push(enemy2);
+allEnemies.push(enemy3);
 
 
 
