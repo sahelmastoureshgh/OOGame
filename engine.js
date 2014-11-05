@@ -9,6 +9,7 @@ var Engine = (function(global) {
     canvas.width = 505;
     canvas.height = 606;
     doc.body.appendChild(canvas);
+	ctx.fillText("Score: " + 100, 700, 725);
 
     function main() {
         var now = Date.now(),

@@ -1,5 +1,6 @@
 const rowLoc = 83;
 const columLoc = 101;
+
 /**
 super class for Enemy and Player
 @param {number} maxLocX maximum random integer to find out location of x
@@ -28,6 +29,7 @@ GameEntity.prototype.startLocation = function(max, min) {
 // Draw the Entity on the screen, required method for game
 GameEntity.prototype.render = function() {
 	ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+
 }
 /**
 Enemy is a sub class of GameEntity
@@ -45,7 +47,7 @@ Enemy.prototype.constructor = Enemy;
 
 // Return intial speed for an enemy
 Enemy.prototype.startSpeed = function() {
-	var speed = (Math.floor(Math.random() * 5) + 1) * 40;
+	var speed = (Math.floor(Math.random() * 5) + 1) * 100;
 	return speed;
 }
 
@@ -74,11 +76,30 @@ Player is a sub class of GameEntity
 **/
 var Player = function(maxLocX, minLocX, maxLocY, minLocY, sprite) {
 	GameEntity.call(this, maxLocX, minLocX, maxLocY, minLocY, sprite);
+	this.score=0;
 }
 Player.prototype = Object.create(GameEntity.prototype);
 Player.prototype.constructor = Player;
+/**
+Reset Player location to start position
+**/
+Player.prototype.resetLocation = function() {
+	this.x = columLoc * this.startLocation(4, 0); //reset to start random location
+	this.y = rowLoc * this.startLocation(5, 4);
+}
 
 Player.prototype.update = function(dt) {
+	//check for collision 
+	for (a in allEnemies) {
+		if ((this.x - allEnemies[a].x < columLoc / 2 && this.y - allEnemies[a].y < columLoc / 2) && (this.x - allEnemies[a].x > -rowLoc / 2 && this.y - allEnemies[a].y > -rowLoc / 2)) {
+			this.resetLocation();
+		}
+	}
+	//if player made to water add its score
+	if (this.y == 0) {
+		this.updateScore();
+		this.resetLocation();
+	}
 
 }
 /**
@@ -102,7 +123,12 @@ Player.prototype.handleInput = function(keyInput) {
 
 
 }
-
+Player.prototype.updateScore = function() {
+	ctx.clearRect(0, 50, 50, 10);
+	ctx.font = "30px Verdana";
+	ctx.fillText("Score: " + this.score, 0, 50);
+	this.score+=1;
+}
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
@@ -119,6 +145,7 @@ var allEnemies = [];
 allEnemies.push(enemy1);
 allEnemies.push(enemy2);
 allEnemies.push(enemy3);
+
 
 
 // This listens for key presses and sends the keys to your
