@@ -97,7 +97,7 @@ Player.prototype.update = function(dt) {
 	}
 	//if player made to water add its score
 	if (this.y == 0) {
-		this.updateScore();
+		this.score++;
 		this.resetLocation();
 	}
 
@@ -123,11 +123,10 @@ Player.prototype.handleInput = function(keyInput) {
 
 
 }
-Player.prototype.updateScore = function() {
-	ctx.clearRect(0, 50, 50, 10);
+Player.prototype.showScore = function() {
+	ctx.fillStyle="yellow";
 	ctx.font = "30px Verdana";
-	ctx.fillText("Score: " + this.score, 0, 50);
-	this.score+=1;
+	ctx.fillText("Score: " + this.score,  0, 83);
 }
 
 // Now instantiate your objects.

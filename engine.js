@@ -68,6 +68,8 @@ var Engine = (function(global) {
             enemy.render();
         });
         player.render();
+		player.showScore();
+	
     }
 
     function reset() {
